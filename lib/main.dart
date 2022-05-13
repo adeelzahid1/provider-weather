@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider_weatherapp/repositories/weather_repository.dart';
+import 'package:provider_weatherapp/services/weather_api_services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,8 +32,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  
+  @override
+  void initState() {
+    super.initState();
+    _fetchWeather();
+  }
+  _fetchWeather()async {
+    await WeatherRepository(weatherApiServices: 
+    WeatherApiServices(httpClient: http.Client())).fetchWeather('lahore');
+  }
 
+  int _counter = 0;
   void _incrementCounter() {
     setState(() {
       _counter++;
