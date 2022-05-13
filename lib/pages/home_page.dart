@@ -3,11 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:provider_weatherapp/constants/constants.dart';
 import 'package:provider_weatherapp/pages/search_page.dart';
 import 'package:provider_weatherapp/pages/settings_page.dart';
+import 'package:provider_weatherapp/providers/temp_settings_provider.dart';
 import 'package:provider_weatherapp/providers/weather_provider.dart';
-import 'package:provider_weatherapp/repositories/weather_repository.dart';
-import 'package:http/http.dart' as http;
-import 'package:provider_weatherapp/services/weather_api_services.dart';
-
+import 'package:provider_weatherapp/widgets/error_dialog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,10 +23,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _weatherProv = context.read<WeatherProvider>();
     _weatherProv.addListener(_registerListener);
-
-    WeatherRepository(weatherApiServices: 
-    WeatherApiServices(httpClient: http.Client())).fetchWeather('lahore');
-    
   }
 
   @override
@@ -40,9 +34,9 @@ class _HomePageState extends State<HomePage> {
   void _registerListener() {
     final WeatherState ws = context.read<WeatherProvider>().state;
 
-    // if (ws.status == WeatherStatus.error) {
-    //   errorDialog(context, ws.error.errMsg);
-    // }
+    if (ws.status == WeatherStatus.error) {
+      errorDialog(context, ws.error.errMsg);
+    }
   }
 
   @override
@@ -84,11 +78,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   String showTemperature(double temperature) {
-    // final tempUnit = context.watch<TempSettingsProvider>().state.tempUnit;
+    final tempUnit = context.watch<TempSettingsProvider>().state.tempUnit;
 
-    // if (tempUnit == TempUnit.fahrenheit) {
-    //   return ((temperature * 9 / 5) + 32).toStringAsFixed(2) + '℉';
-    // }
+    if (tempUnit == TempUnit.fahrenheit) {
+      return ((temperature * 9 / 5) + 32).toStringAsFixed(2) + '℉';
+    }
 
     return temperature.toStringAsFixed(2) + '℃';
   }
