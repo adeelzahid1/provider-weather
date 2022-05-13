@@ -10,12 +10,12 @@ enum TempUnit {
 
 class TempSettingsState extends Equatable {
   final TempUnit tempUnit;
-  TempSettingsState({
+  const TempSettingsState({
     this.tempUnit = TempUnit.celsius,
   });
 
   factory TempSettingsState.initial() {
-    return TempSettingsState();
+    return const TempSettingsState();
   }
 
   @override

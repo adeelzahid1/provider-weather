@@ -9,11 +9,11 @@ void errorDialog(BuildContext context, String errorMessage) {
       barrierDismissible: false,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: Text('Error'),
+          title: const Text('Error'),
           content: Text(errorMessage),
           actions: [
             CupertinoDialogAction(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () => Navigator.pop(context),
             ),
           ],
@@ -26,12 +26,12 @@ void errorDialog(BuildContext context, String errorMessage) {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: Text('Error'),
+          title: const Text('Error'),
           content: Text(errorMessage),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );

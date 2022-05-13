@@ -9,7 +9,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: const Text('Settings'),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -17,8 +17,8 @@ class SettingsPage extends StatelessWidget {
           vertical: 10.0,
         ),
         child: ListTile(
-          title: Text('Temperature Unit'),
-          subtitle: Text('Celsius/Fahrenheit (Default: Celsius)'),
+          title: const Text('Temperature Unit'),
+          subtitle: const Text('Celsius/Fahrenheit (Default: Celsius)'),
           trailing: Switch(
             value: context.watch<TempSettingsProvider>().state.tempUnit ==TempUnit.celsius,
             onChanged: (_) {context.read<TempSettingsProvider>().toggleTempUnit();},

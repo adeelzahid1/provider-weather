@@ -43,15 +43,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weather'),
+        title: const Text('Weather'),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () async {
               _city = await Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return SearchPage();
+                  return const SearchPage();
                 }),
               );
               print('city: $_city');
@@ -65,11 +65,11 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) {
-                  return SettingsPage();
+                  return const SettingsPage();
                 }),
               );
             },
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
           ),
         ],
       ),
@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
     final weatherState = context.watch<WeatherProvider>().state;
 
     if (weatherState.status == WeatherStatus.initial) {
-      return Center(
+      return const Center(
         child: Text(
           'Select a city',
           style: TextStyle(fontSize: 20.0),
@@ -109,14 +109,14 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (weatherState.status == WeatherStatus.loading) {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(),
       );
     }
 
     if (weatherState.status == WeatherStatus.error &&
         weatherState.weather.title == '') {
-      return Center(
+      return const Center(
         child: Text(
           'Select a city',
           style: TextStyle(fontSize: 20.0),
@@ -130,57 +130,57 @@ class _HomePageState extends State<HomePage> {
         Text(
           weatherState.weather.title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 40.0,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 10.0),
+        const SizedBox(height: 10.0),
         Text(
           TimeOfDay.fromDateTime(weatherState.weather.lastUpdated)
               .format(context),
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 18.0),
+          style: const TextStyle(fontSize: 18.0),
         ),
-        SizedBox(height: 60.0),
+        const SizedBox(height: 60.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               showTemperature(weatherState.weather.theTemp),
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(width: 20.0),
+            const SizedBox(width: 20.0),
             Column(
               children: [
                 Text(
                   showTemperature(weatherState.weather.maxTemp),
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                 ),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 Text(
                   showTemperature(weatherState.weather.minTemp),
-                  style: TextStyle(fontSize: 16.0),
+                  style: const TextStyle(fontSize: 16.0),
                 ),
               ],
             ),
           ],
         ),
-        SizedBox(height: 40.0),
+        const SizedBox(height: 40.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Spacer(),
+            const Spacer(),
             showIcon(weatherState.weather.weatherStateAbbr),
-            SizedBox(width: 20.0),
+            const SizedBox(width: 20.0),
             Text(
               weatherState.weather.weatherStateName,
-              style: TextStyle(fontSize: 32.0),
+              style: const TextStyle(fontSize: 32.0),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ],
