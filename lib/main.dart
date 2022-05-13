@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:provider_weatherapp/pages/home_page.dart';
+import 'package:provider_weatherapp/providers/weather_provider.dart';
 import 'package:provider_weatherapp/repositories/weather_repository.dart';
 import 'package:provider_weatherapp/services/weather_api_services.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -12,69 +15,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  
-  @override
-  void initState() {
-    super.initState();
-    _fetchWeather();
-  }
-  _fetchWeather()async {
-    await WeatherRepository(weatherApiServices: 
-    WeatherApiServices(httpClient: http.Client())).fetchWeather('lahore');
-  }
-
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    return MultiProvider(
+      providers: [
+        Provider<WeatherRepository>(
+          create: (context) {
+            final WeatherApiServices weatherApiServices =
+                WeatherApiServices(httpClient: http.Client());
+            return WeatherRepository(weatherApiServices: weatherApiServices);
+          },
         ),
+        ChangeNotifierProvider<WeatherProvider>(
+          create: (context) => WeatherProvider(
+              weatherRepository: context.read<WeatherRepository>()),
+        ),
+        
+        
+      ],
+      builder: (context, _) => MaterialApp(
+        title: 'Weather App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.light(),
+
+        home: HomePage(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
     );
   }
 }
